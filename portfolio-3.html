@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小西 未来翔 — Asuka Konishi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #1b1b1b; --white: #f5f4f0; --grey-1: #1b1b1b; --grey-2: #353535;
+    --grey-3: #a6a6a2; --grey-4: #c5c4c0; --grey-5: #e5e4df; --accent: #e0d8c8;
+    --serif: 'Times New Roman',Times,'Shippori Mincho',serif;
+    --mono: 'Times New Roman',Times,'Shippori Mincho',serif; --jp: 'Shippori Mincho',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;font-size:112.5%;}
+  body{background:var(--black);color:var(--white);font-family:var(--serif);overflow-x:hidden;cursor:none;}
+
+  .cursor{position:fixed;width:6px;height:6px;background:var(--white);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;mix-blend-mode:difference;}
+  .cursor.expanded{width:36px;height:36px;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:block;padding:2rem 2.5rem;mix-blend-mode:difference;}
+  .nav-logo{font-family:var(--jp);font-size:.85rem;letter-spacing:.15em;color:var(--white);text-decoration:none;opacity:0;animation:fadeUp 1s .2s forwards;}
+  .nav-links{position:absolute;top:4rem;right:2.5rem;display:flex;flex-direction:column;align-items:flex-end;gap:.35rem;list-style:none;}
+  .nav-links a{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-4);text-decoration:none;transition:color .3s;opacity:0;animation:fadeUp 1s forwards;}
+  .nav-links li:nth-child(1) a{animation-delay:.30s;} .nav-links li:nth-child(2) a{animation-delay:.35s;}
+  .nav-links li:nth-child(3) a{animation-delay:.40s;} .nav-links li:nth-child(4) a{animation-delay:.45s;}
+  .nav-links li:nth-child(5) a{animation-delay:.50s;} .nav-links li:nth-child(6) a{animation-delay:.55s;}
+  .nav-links a:hover{color:var(--white);}
+
+  .lang-switcher{position:fixed;top:1.4rem;right:2.5rem;z-index:101;display:flex;gap:1rem;opacity:0;animation:fadeUp 1s .8s forwards;}
+  .lang-btn{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--grey-3);background:none;border:none;cursor:none;transition:color .3s;padding:0;}
+  .lang-btn.active,.lang-btn:hover{color:var(--white);}
+
+  /* HERO */
+  #hero{height:70vh;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;padding:7rem 2.5rem 3.5rem;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:#1b1b1b;z-index:1;}
+  .hero-bg::after{display:none;}
+  .hero-lines{position:absolute;top:0;left:0;right:0;height:100%;z-index:1;pointer-events:none;}
+  .hero-lines::before{display:none;}
+  .hero-content{position:relative;z-index:3;max-width:900px;width:70%;}
+  .hero-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 1.2s .5s forwards;}
+  .hero-name-jp{font-family:var(--jp);font-size:clamp(1.2rem,3vw,2rem);font-weight:400;letter-spacing:.3em;color:var(--grey-4);margin-top:.1rem;opacity:0;animation:fadeUp 1.2s .65s forwards;}
+  .hero-name{font-size:clamp(3.2rem,7.8vw,7rem);font-weight:300;line-height:.9;letter-spacing:-.02em;color:var(--white);opacity:0;animation:fadeUp 1.2s .6s forwards;}
+  .hero-name em{font-style:normal;color:var(--white);}
+  .hero-scroll{position:absolute;bottom:3.5rem;right:2.5rem;z-index:3;display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeUp 1.2s 1.2s forwards;}
+  .hero-scroll span{font-family:var(--mono);font-size:.55rem;letter-spacing:.25em;color:var(--grey-3);text-transform:uppercase;writing-mode:vertical-rl;}
+  .scroll-line{width:1px;height:60px;background:linear-gradient(180deg,var(--accent),transparent);animation:scrollPulse 2s 2s infinite;}
+
+  section{padding:7rem 2.5rem;}
+  .section-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;color:var(--grey-3);text-transform:uppercase;margin-bottom:4rem;display:flex;align-items:center;gap:1.5rem;}
+  .section-label::after{content:'';flex:1;max-width:80px;height:1px;background:var(--grey-2);}
+
+  /* ─── GALLERY SYSTEM ─── */
+  #photography{background:var(--black);}
+
+  /* Level 1: category tabs */
+  .cat-tabs{display:flex;gap:0;margin-bottom:3.5rem;border-bottom:1px solid var(--grey-2);}
+  .cat-tab{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-3);background:none;border:none;cursor:none;padding:.8rem 1.8rem .8rem 0;transition:color .3s;position:relative;}
+  .cat-tab::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:1px;background:var(--white);transition:width .4s cubic-bezier(.25,.46,.45,.94);}
+  .cat-tab.active{color:var(--white);}
+  .cat-tab.active::after{width:calc(100% - 1.8rem);}
+  .cat-tab:hover{color:var(--grey-5);}
+
+  .cat-panel{display:none;}
+  .cat-panel.active{display:block;animation:fadeIn .4s forwards;}
+
+  /* Level 2: series/artist grid */
+  .series-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--grey-2);}
+  .series-card{background:var(--black);cursor:none;position:relative;overflow:hidden;aspect-ratio:4/3;}
+  .series-card:hover .series-overlay{opacity:1;}
+  .series-thumb{width:100%;height:100%;position:relative;}
+  .series-thumb-ph{position:absolute;inset:0;}
+  .series-thumb-ph::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--grey-2) 0%,var(--black) 50%,var(--grey-1) 100%);}
+  .series-thumb-ph::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");mix-blend-mode:overlay;}
+  .series-thumb img{width:100%;height:100%;object-fit:cover;object-position:var(--cover-position,50% 50%);position:absolute;inset:0;}
+  .series-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.82),rgba(10,10,10,.06) 78%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;opacity:1;transition:background .4s;z-index:2;}
+  .series-card:hover .series-overlay{background:linear-gradient(0deg,rgba(10,10,10,.9),rgba(10,10,10,.18) 78%);}
+  .series-overlay-label{font-family:var(--mono);font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem;}
+  .series-overlay-title{font-size:1.1rem;font-weight:300;color:var(--white);line-height:1.2;}
+  .series-overlay-count{font-family:var(--mono);font-size:.5rem;letter-spacing:.15em;color:var(--grey-4);margin-top:.3rem;}
+  .series-overlay-arrow{position:absolute;top:1.2rem;right:1.2rem;font-family:var(--mono);font-size:.7rem;color:var(--white);opacity:.5;}
+
+  /* Level 3: photo grid inside series */
+  .series-detail{display:none;animation:fadeIn .4s forwards;}
+  .series-detail.active{display:block;}
+  .series-detail-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2.5rem;}
+  .back-btn{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-3);background:none;border:none;cursor:none;display:flex;align-items:center;gap:.6rem;transition:color .3s;padding:0;}
+  .back-btn:hover{color:var(--white);}
+  .back-btn::before{content:'←';font-size:.8rem;}
+  .detail-breadcrumb{font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;color:var(--grey-3);}
+  .detail-breadcrumb span{color:var(--white);}
+  .detail-title{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:300;color:var(--white);margin-bottom:.4rem;}
+  .detail-meta{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--grey-3);margin-bottom:2.5rem;}
+
+  .photo-masonry{columns:3;gap:1rem;}
+  .photo-masonry-item{break-inside:avoid;margin-bottom:1rem;position:relative;overflow:hidden;cursor:none;}
+  .photo-masonry-item img{width:100%;display:block;}
+  .fineart-gallery{margin-top:4rem;}
+  .fineart-gallery-title{font-family:var(--mono);font-size:.6rem;letter-spacing:.25em;color:var(--grey-3);text-transform:uppercase;margin-bottom:1.5rem;}
+  .fineart-photo-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;columns:initial;margin-bottom:2.5rem;}
+  .fineart-photo-row .photo-masonry-item{break-inside:auto;margin-bottom:0;}
+  .fineart-gallery .photo-masonry-item{cursor:none;}
+  .photo-masonry-ph{width:100%;position:relative;overflow:hidden;}
+  .photo-masonry-ph::before{content:'';display:block;}
+  .photo-masonry-ph::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");mix-blend-mode:overlay;}
+  .photo-masonry-item:hover .lightbox-hint{opacity:1;}
+  .lightbox-hint{position:absolute;inset:0;background:rgba(10,10,10,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
+  .lightbox-hint span{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--white);text-transform:uppercase;}
+  .live-photo-item .lightbox-hint{bottom:1.5rem;}
+
+  /* LIGHTBOX */
+  .lightbox{position:fixed;inset:0;background:rgba(5,5,5,.96);z-index:1000;display:none;align-items:center;justify-content:center;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{position:relative;max-width:90vw;max-height:90vh;display:flex;align-items:center;gap:2rem;}
+  .lightbox-img{max-width:80vw;max-height:85vh;object-fit:contain;display:block;}
+  .lightbox-img[hidden],.lightbox-img-ph[hidden]{display:none;}
+  .lightbox-img-ph{width:60vw;height:70vh;background:var(--grey-1);position:relative;}
+  .lightbox-img-ph::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a 0%,#0a0a0a 100%);}
+  .lightbox-close{position:fixed;top:2rem;right:2.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--grey-4);background:none;border:none;cursor:none;text-transform:uppercase;transition:color .3s;}
+  .lightbox-close:hover{color:var(--white);}
+  .lightbox-nav{font-family:var(--mono);font-size:1.2rem;color:var(--grey-3);background:none;border:none;cursor:none;transition:color .3s;padding:1rem;flex-shrink:0;}
+  .lightbox-nav:hover{color:var(--white);}
+  .lightbox-caption{position:fixed;bottom:2.5rem;left:2.5rem;}
+  .lightbox-caption-title{font-size:1rem;font-weight:300;color:var(--white);}
+  .lightbox-caption-meta{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:var(--grey-3);margin-top:.3rem;}
+  .lightbox-counter{position:fixed;bottom:2.5rem;right:2.5rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--grey-3);}
+
+  /* FASHION has sub-categories before series grid */
+  .subcat-tabs{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;margin-bottom:2.5rem;align-items:center;}
+  .subcat-tab{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-3);background:none;border:none;cursor:none;transition:color .3s;padding:.3rem 0;position:relative;}
+  .subcat-tab::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--white);transition:width .3s;}
+  .subcat-tab.active{color:var(--white);}
+  .subcat-tab.active::after{width:100%;}
+  .subcat-panel{display:none;}
+  .subcat-panel.active{display:block;animation:fadeIn .3s forwards;}
+  .live-photo-date{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;color:var(--grey-3);margin-top:.45rem;}
+
+  /* STUDIO has mono/color split before grid */
+  .split-tabs{display:flex;gap:1rem;margin-bottom:2.5rem;align-items:center;}
+  .split-sep{font-family:var(--mono);font-size:.6rem;color:var(--grey-2);}
+
+  /* FINE ART */
+  #fineart{background:var(--grey-1);border-top:1px solid var(--grey-2);}
+  .books-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:5rem 6rem;max-width:700px;}
+  .book-card{display:flex;flex-direction:column;gap:1.8rem;}
+  .book-cover{aspect-ratio:3/2;background:var(--grey-2);position:relative;overflow:hidden;}
+  .book-cover::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,var(--grey-2) 0%,#111 60%,#1a1a1a 100%);}
+  .book-cover::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");mix-blend-mode:overlay;}
+  .book-cover img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;}
+  .book-cover-text{position:absolute;bottom:1.8rem;left:1.8rem;z-index:2;}
+  .book-cover-title{font-family:var(--jp);font-size:1.2rem;color:var(--white);letter-spacing:.3em;line-height:1.6;}
+  .book-cover-sub{font-family:var(--serif);font-style:italic;font-size:.75rem;color:var(--accent);letter-spacing:.1em;margin-top:.4rem;}
+  .book-status{font-family:var(--mono);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--grey-3);}
+  .book-title{font-size:1.6rem;font-weight:300;line-height:1.1;color:var(--white);}
+  .book-title em{font-style:italic;color:var(--grey-4);}
+  .book-desc{font-size:.85rem;line-height:1.9;color:var(--grey-4);font-weight:300;}
+  .book-specs{display:flex;gap:2rem;margin-top:.5rem;}
+  .spec-key{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:var(--grey-3);text-transform:uppercase;margin-bottom:.2rem;}
+  .spec-val{font-size:.8rem;color:var(--grey-5);font-style:italic;}
+
+  /* EXHIBITIONS */
+  #exhibitions{background:var(--black);border-top:1px solid var(--grey-2);}
+  .exh-list{display:flex;flex-direction:column;}
+  .exh-item{display:grid;grid-template-columns:120px 1fr auto;gap:2rem;align-items:baseline;padding:1.8rem 0;border-bottom:1px solid var(--grey-2);opacity:0;transform:translateY(12px);transition:opacity .7s,transform .7s;}
+  .exh-item.visible{opacity:1;transform:translateY(0);}
+  .exh-year{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--grey-3);}
+  .exh-title{font-size:1.1rem;font-weight:300;color:var(--white);margin-bottom:.3rem;}
+  .exh-venue{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:var(--grey-3);}
+  .exh-type{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+
+  /* WORKS — same gallery system as photography */
+  #works{background:var(--grey-1);border-top:1px solid var(--grey-2);padding-top:4rem;}
+  .wcat-panel{display:none;}
+  .wcat-panel.active{display:block;animation:fadeIn .4s forwards;}
+
+  /* ABOUT */
+  #about{background:var(--black);border-top:1px solid var(--grey-2);}
+
+  /* Hero: portrait left, name right */
+  .about-hero{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:5rem;}
+  .about-portrait-large{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--grey-1);}
+  .about-portrait-ph{position:absolute;inset:0;background:linear-gradient(170deg,#1e1c1a 0%,#0a0a0a 100%);}
+  .about-portrait-ph::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");mix-blend-mode:overlay;}
+  .about-portrait-large img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+  .portrait-label{position:absolute;bottom:1.5rem;right:1.5rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:var(--grey-3);text-transform:uppercase;z-index:2;}
+  .about-hero-name{padding-bottom:1rem;}
+
+  /* Body: bio left, credits right */
+  .about-body{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:start;border-top:1px solid var(--grey-2);padding-top:4rem;}
+  .about-bio-label{font-family:var(--mono);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--grey-3);margin-bottom:2rem;}
+
+  .about-name-jp{font-family:var(--jp);font-size:clamp(1rem,2vw,1.4rem);letter-spacing:.3em;color:var(--grey-4);margin-bottom:.5rem;}
+  .about-name{font-size:clamp(2.5rem,4vw,4rem);font-weight:300;line-height:1;color:var(--white);letter-spacing:-.01em;}
+  .about-name em{font-style:normal;color:var(--grey-4);}
+  .about-subtitle{margin-top:.8rem;font-family:var(--serif);font-size:.75rem;letter-spacing:.2em;color:var(--grey-3);}
+  .about-bio{font-size:.95rem;line-height:2.1;color:var(--grey-4);font-weight:300;}
+  .about-bio p+p{margin-top:1.4rem;}
+  .about-credits{display:flex;flex-direction:column;gap:1.8rem;}
+  .credit-key{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:var(--grey-3);text-transform:uppercase;margin-bottom:.3rem;}
+  .credit-val{font-size:.8rem;color:var(--grey-5);font-style:italic;line-height:1.6;}
+
+  @media(max-width:900px){
+    .about-hero{grid-template-columns:1fr;gap:2rem;}
+    .about-portrait-large{aspect-ratio:4/3;max-height:60vw;}
+    .about-body{grid-template-columns:1fr;gap:3rem;}
+  }
+
+  /* CONTACT */
+  #contact{background:var(--grey-1);border-top:1px solid var(--grey-2);min-height:60vh;display:flex;flex-direction:column;justify-content:center;}
+  .contact-headline{font-size:clamp(2rem,5vw,4.5rem);font-weight:300;line-height:1.1;letter-spacing:-.02em;margin-bottom:3rem;}
+  .contact-headline em{font-style:italic;color:var(--grey-4);}
+  .contact-links{display:flex;flex-direction:column;gap:.8rem;}
+  .contact-link{display:flex;align-items:center;gap:1.5rem;text-decoration:none;color:var(--grey-4);transition:color .3s;font-size:.85rem;font-style:italic;cursor:none;}
+  .contact-link:hover{color:var(--white);}
+  .contact-link::before{content:'';width:20px;height:1px;background:currentColor;flex-shrink:0;transition:width .3s;}
+  .contact-link:hover::before{width:40px;}
+  .contact-form{max-width:640px;margin-top:2.5rem;display:grid;gap:1.2rem;}
+  .contact-form label{display:grid;gap:.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:var(--grey-4);}
+  .contact-form input,.contact-form textarea{width:100%;padding:.8rem;background:transparent;border:1px solid var(--grey-2);border-radius:0;color:var(--white);font: .85rem var(--serif);}
+  .contact-form input:focus,.contact-form textarea:focus{outline:1px solid var(--grey-4);border-color:var(--grey-4);}
+  .contact-form textarea{min-height:160px;resize:vertical;}
+  .contact-form button{justify-self:start;padding:.8rem 1.4rem;border:1px solid var(--grey-3);background:transparent;color:var(--white);font: .6rem var(--mono);letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s;}
+  .contact-form button:hover{background:var(--white);color:var(--black);}
+  .contact-form button:disabled{opacity:.5;cursor:wait;}
+  .contact-form-status{min-height:1.4em;color:var(--grey-4);font-size:.75rem;line-height:1.6;}
+
+  footer{border-top:1px solid var(--grey-2);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:var(--black);}
+  footer span{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--grey-3);text-transform:uppercase;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+  @keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94);}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.1s;} .reveal-delay-2{transition-delay:.2s;} .reveal-delay-3{transition-delay:.35s;}
+
+  @media(max-width:900px){
+    .series-grid,.works-grid{grid-template-columns:repeat(2,1fr);}
+    .photo-masonry{columns:2;}
+    .fineart-photo-row{grid-template-columns:repeat(3,minmax(0,1fr));}
+    .about-layout{grid-template-columns:1fr;gap:3rem;}
+    .books-grid{grid-template-columns:1fr;}
+    .exh-item{grid-template-columns:80px 1fr;} .exh-type{display:none;}
+  }
+  @media(max-width:600px){
+    nav{padding:1.5rem;} section{padding:5rem 1.5rem;}
+    #hero{height:70vh;min-height:460px;padding:6rem 1.5rem 3.5rem;}
+    #works{padding-top:3rem;}
+    .hero-content{width:calc(100% - 145px);}
+    .series-grid,.works-grid{grid-template-columns:1fr;}
+    .photo-masonry{columns:1;}
+    .fineart-photo-row{grid-template-columns:1fr;}
+    .hero-name{font-size:clamp(2.5rem,11vw,4.5rem);}
+    .cat-tabs{flex-wrap:wrap;}
+    footer{flex-direction:column;gap:.8rem;text-align:center;}
+  }
+
+  /* Keep small navigation and portfolio labels readable. */
+  .nav-logo{font-size:1rem;}
+  .nav-links{gap:.45rem;}
+  .nav-links a{font-size:.8rem;}
+  .lang-btn{font-size:.75rem;}
+  .hero-eyebrow{font-size:.78rem;}
+  .hero-scroll span{font-size:.7rem;color:var(--grey-4);}
+  .section-label{font-size:.78rem;color:var(--grey-4);}
+  .cat-tab,.subcat-tab{font-size:.75rem;color:var(--grey-4);}
+  .series-overlay-label,.series-overlay-count{font-size:.68rem;}
+  .back-btn,.detail-breadcrumb,.detail-meta{font-size:.72rem;color:var(--grey-4);}
+  .fineart-gallery-title{font-size:.78rem;color:var(--grey-4);}
+  .lightbox-hint span,.lightbox-close{font-size:.72rem;}
+  .lightbox-caption-meta,.lightbox-counter{font-size:.7rem;color:var(--grey-4);}
+  .split-sep{font-size:.72rem;color:var(--grey-4);}
+  .book-status,.spec-key,.credit-key{font-size:.7rem;color:var(--grey-4);}
+  .book-desc{font-size:1rem;color:var(--grey-5);}
+  .exh-year,.exh-venue{font-size:.75rem;color:var(--grey-4);}
+  .exh-type{font-size:.7rem;}
+  .portrait-label,.about-bio-label,footer span{font-size:.7rem;color:var(--grey-4);}
+  .about-subtitle{font-size:.9rem;color:var(--grey-4);}
+  .about-bio{font-size:1.08rem;color:var(--grey-5);}
+  .credit-val,.spec-val{font-size:.95rem;}
+  .contact-link{font-size:1rem;color:var(--grey-5);}
+  .lang-switcher{top:1.2rem;right:2.5rem;}
+  .section-label.reveal{opacity:1;transform:none;transition:none;}
+  .lang-btn{font-size:.95rem;color:var(--grey-4);padding:.2rem;}
+  .hero-name-jp{font-size:clamp(19.2px,3vw,32px);}
+  .hero-name{font-size:clamp(51.2px,7.8vw,112px);}
+  .about-name-jp{font-size:clamp(16px,2vw,22.4px);}
+  .about-name-jp{color:var(--white);}
+  .about-name{font-size:clamp(40px,4vw,64px);}
+  .about-name em{color:inherit;}
+  .live-year-tabs .subcat-tab{font-family:var(--mono);}
+  @media(max-width:600px){
+    .lang-switcher{top:.8rem;right:1.5rem;}
+    .nav-links{top:3.5rem;right:1.5rem;}
+    .hero-name{font-size:clamp(40px,11vw,72px);}
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="#works" data-jp="Work" data-en="Work" data-fr="Work">Work</a></li>
+    <li><a href="#fineart" data-jp="作品集" data-en="Fine Art" data-fr="Art">作品集</a></li>
+    <li><a href="#exhibitions" data-jp="展示歴" data-en="Exhibitions" data-fr="Expositions">展示歴</a></li>
+    <li><a href="#about" data-jp="About" data-en="About" data-fr="À propos">About</a></li>
+    <li><a href="#contact" data-jp="お問い合わせ" data-en="Contact" data-fr="Contact">お問い合わせ</a></li>
+  </ul>
+</nav>
+
+<div class="lang-switcher">
+  <button class="lang-btn active" onclick="setLang('jp')">JP</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('fr')">FR</button>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div><div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-jp="写真家 / アーティスト" data-en="Photographer / Artist" data-fr="Photographe / Artiste">写真家 / アーティスト</div>
+    <h1 class="hero-name">Asuka <em>Konishi</em></h1>
+    <p class="hero-name-jp">小西 未来翔</p>
+  </div>
+  <div class="hero-scroll">
+    <span data-jp="スクロール" data-en="scroll" data-fr="défiler">scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- Legacy Photography panel, removed in favor of the consolidated Work section. -->
+<section id="photography" hidden>
+  <div class="section-label reveal" data-jp="01 — 写真" data-en="01 — Photography" data-fr="01 — Photographie">01 — 写真</div>
+
+  <div class="cat-tabs reveal">
+    <button class="cat-tab active" onclick="showCat('live')"      data-jp="ライブ"         data-en="Live"      data-fr="Live">ライブ</button>
+    <button class="cat-tab"        onclick="showCat('fashion')"   data-jp="ファッション"   data-en="Fashion"   data-fr="Mode">ファッション</button>
+    <button class="cat-tab"        onclick="showCat('portrait')"  data-jp="ポートレート"   data-en="Portrait"  data-fr="Portrait">ポートレート</button>
+  </div>
+
+  <!-- ══ LIVE ══ -->
+  <div class="cat-panel active" id="cat-live">
+    <div data-live-year-browser></div>
+  </div>
+
+  <!-- ══ FASHION ══ -->
+  <div class="cat-panel" id="cat-fashion">
+    <div class="subcat-tabs">
+      <button class="subcat-tab active" onclick="showSubcat('fashion','tokyo')" data-jp="Tokyo" data-en="Tokyo" data-fr="Tokyo">Tokyo</button>
+      <span class="split-sep">/</span>
+      <button class="subcat-tab" onclick="showSubcat('fashion','paris')" data-jp="Paris" data-en="Paris" data-fr="Paris">Paris</button>
+    </div>
+
+    <!-- Backstage -->
+    <div class="subcat-panel active" id="fashion-tokyo">
+      <div class="series-grid" id="fashion-tokyo-grid">
+
+        <div class="series-card" onclick="openSeries('fashion-backstage','reverberate')">
+          <div class="series-thumb"><img src="Fashion/Paris/Reverterate 26AW/20260122-_DSC1114cover .jpg" alt="Reverberate backstage, Paris Fashion Week 2026"></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Backstage</div>
+            <div class="series-overlay-title">reverberate</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+
+        <div class="series-card" onclick="openSeries('fashion-backstage','sinecosines')">
+          <div class="series-thumb"><img src="Fashion/Paris/Sines&amp;cosines 26AW and naganserver/20260123-_DSC1266cover .jpg" alt="Sine &amp; Cosines with Nagan Server, Paris 2026"></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Pop Up / Live</div>
+            <div class="series-overlay-title">Sine &amp; Cosines<br>× Nagan Server</div>
+            <div class="series-overlay-count">2026.01.23 — Paris</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="series-detail" id="fashion-backstage-reverberate">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-backstage','fashion-backstage-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Backstage / <span>reverberate</span></div>
+        </div>
+        <div class="detail-title">reverberate</div>
+        <div class="detail-meta">Backstage Photography</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-reverberate',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1816 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-reverberate',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0d0d0d 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-reverberate',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0e0e0e 0%,#1c1a18 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-reverberate',3)"><div class="photo-masonry-ph" style="background:linear-gradient(145deg,#131110 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="fashion-backstage-sinecosines">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-backstage','fashion-backstage-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Pop Up / <span>Sine &amp; Cosines × Nagan Server</span></div>
+        </div>
+        <div class="detail-title">Sine &amp; Cosines × Nagan Server</div>
+        <div class="detail-meta" data-jp="ポップアップ / ライブ — 2026.01.23 Paris" data-en="Pop Up / Live — 2026.01.23 Paris" data-fr="Pop Up / Live — 23.01.2026 Paris">Pop Up / Live — 2026.01.23 Paris</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-sinecosines',0)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-sinecosines',1)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1816 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-sinecosines',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0e0e0e 0%,#1c1a18 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-sinecosines',3)"><div class="photo-masonry-ph" style="background:linear-gradient(145deg,#141210 0%,#0d0d0d 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-backstage-sinecosines',4)"><div class="photo-masonry-ph" style="background:linear-gradient(125deg,#111 0%,#1a1614 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Show -->
+    <div class="subcat-panel" id="fashion-show" hidden>
+      <div class="series-grid" id="fashion-show-grid">
+        <div class="series-card" onclick="openSeries('fashion-show','yoshiokubo')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(140deg,#131210 0%,#0a0a0a 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Show</div>
+            <div class="series-overlay-title">Yoshiokubo</div>
+            <div class="series-overlay-count">27SS</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openSeries('fashion-show','yushokobayashi')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Show</div>
+            <div class="series-overlay-title">Yusho Kobayashi</div>
+            <div class="series-overlay-count">27SS</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openSeries('fashion-show','mitsuruokazaki')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(120deg,#0e0e0e 0%,#1c1a18 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Show</div>
+            <div class="series-overlay-title">Mitsuru Okazaki</div>
+            <div class="series-overlay-count">27SS</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openSeries('fashion-show','orimi')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(145deg,#141210 0%,#0d0d0d 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Show</div>
+            <div class="series-overlay-title">ORIMI</div>
+            <div class="series-overlay-count">27SS</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openSeries('fashion-show','enfold')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(135deg,#1a1816 0%,#0a0a0a 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Show</div>
+            <div class="series-overlay-title">ENFOLD</div>
+            <div class="series-overlay-count">27SS</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openSeries('fashion-show','soduk')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(125deg,#111 0%,#1a1614 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Show</div>
+            <div class="series-overlay-title">Soduk</div>
+            <div class="series-overlay-count">27SS</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="fashion-show-yoshiokubo">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-show','fashion-show-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Show / <span>Yoshiokubo 27SS</span></div>
+        </div>
+        <div class="detail-title">Yoshiokubo</div>
+        <div class="detail-meta">Show Photography — 27SS</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-yoshiokubo',0)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#131210 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-yoshiokubo',1)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-yoshiokubo',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0e0e0e 0%,#1c1a18 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="fashion-show-yushokobayashi">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-show','fashion-show-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Show / <span>Yusho Kobayashi 27SS</span></div>
+        </div>
+        <div class="detail-title">Yusho Kobayashi</div>
+        <div class="detail-meta">Show Photography — 27SS</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-yushokobayashi',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-yushokobayashi',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0d0d0d 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-yushokobayashi',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#111 0%,#1c1a18 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="fashion-show-mitsuruokazaki">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-show','fashion-show-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Show / <span>Mitsuru Okazaki 27SS</span></div>
+        </div>
+        <div class="detail-title">Mitsuru Okazaki</div>
+        <div class="detail-meta">Show Photography — 27SS</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-mitsuruokazaki',0)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0e0e0e 0%,#1c1a18 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-mitsuruokazaki',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#131110 0%,#0a0a0a 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-mitsuruokazaki',2)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1816 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="fashion-show-orimi">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-show','fashion-show-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Show / <span>ORIMI 27SS</span></div>
+        </div>
+        <div class="detail-title">ORIMI</div>
+        <div class="detail-meta">Show Photography — 27SS</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-orimi',0)"><div class="photo-masonry-ph" style="background:linear-gradient(145deg,#141210 0%,#0d0d0d 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-orimi',1)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1c1a18 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-orimi',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0f0f0f 0%,#1a1816 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="fashion-show-enfold">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-show','fashion-show-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Show / <span>ENFOLD 27SS</span></div>
+        </div>
+        <div class="detail-title">ENFOLD</div>
+        <div class="detail-meta">Show Photography — 27SS</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-enfold',0)"><div class="photo-masonry-ph" style="background:linear-gradient(135deg,#1a1816 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-enfold',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0d0d0d 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-enfold',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0e0e0e 0%,#1c1814 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="fashion-show-soduk">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('fashion-show','fashion-show-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Show / <span>Soduk 27SS</span></div>
+        </div>
+        <div class="detail-title">Soduk</div>
+        <div class="detail-meta">Show Photography — 27SS</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-soduk',0)"><div class="photo-masonry-ph" style="background:linear-gradient(125deg,#111 0%,#1a1614 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-soduk',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#131110 0%,#0a0a0a 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('fashion-show-soduk',2)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#0e0e0e 0%,#1c1a18 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="subcat-panel" id="fashion-paris">
+      <div class="series-grid" id="fashion-paris-grid"></div>
+    </div>
+    <div class="subcat-panel" id="fashion-les-six">
+      <div class="series-grid" id="fashion-les-six-grid"></div>
+    </div>
+  </div>
+
+  <!-- ══ PORTRAIT ══ -->
+  <div class="cat-panel" id="cat-portrait">
+    <div class="subcat-tabs">
+      <button class="subcat-tab active" onclick="showSubcat('portrait','mono')" data-jp="モノクローム" data-en="Monochrome" data-fr="Monochrome">モノクローム</button>
+      <span class="split-sep">/</span>
+      <button class="subcat-tab" onclick="showSubcat('portrait','color')" data-jp="カラー" data-en="Colour" data-fr="Couleur">カラー</button>
+    </div>
+
+    <!-- Mono portraits -->
+    <div class="subcat-panel active" id="portrait-mono">
+      <div class="series-grid" id="portrait-mono-grid">
+        <div class="series-card" onclick="openSeries('portrait-mono','studio')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(135deg,#1a1a1a 0%,#0a0a0a 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Mono</div>
+            <div class="series-overlay-title" data-jp="スタジオ" data-en="Studio" data-fr="Studio">スタジオ</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openSeries('portrait-mono','natural')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(130deg,#141210 0%,#0d0d0d 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Mono</div>
+            <div class="series-overlay-title" data-jp="自然光" data-en="Natural Light" data-fr="Lumière naturelle">自然光</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="portrait-mono-studio">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('portrait-mono','portrait-mono-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Mono / <span>スタジオ</span>" data-en="Portrait / Mono / <span>Studio</span>" data-fr="Portrait / Mono / <span>Studio</span>">Portrait / Mono / <span>スタジオ</span></div>
+        </div>
+        <div class="detail-title" data-jp="スタジオポートレート" data-en="Studio Portraits" data-fr="Portraits Studio">スタジオポートレート</div>
+        <div class="detail-meta">Portrait / Monochrome</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-mono-studio',0)"><div class="photo-masonry-ph" style="background:linear-gradient(135deg,#1a1a1a 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-mono-studio',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141414 0%,#0d0d0d 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-mono-studio',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#111 0%,#1a1a1a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-mono-studio',3)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#181616 0%,#0c0c0c 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="portrait-mono-natural">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('portrait-mono','portrait-mono-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Mono / <span>自然光</span>" data-en="Portrait / Mono / <span>Natural Light</span>" data-fr="Portrait / Mono / <span>Lumière naturelle</span>">Portrait / Mono / <span>自然光</span></div>
+        </div>
+        <div class="detail-title" data-jp="自然光ポートレート" data-en="Natural Light Portraits" data-fr="Portraits en lumière naturelle">自然光ポートレート</div>
+        <div class="detail-meta">Portrait / Monochrome</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-mono-natural',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#141210 0%,#0d0d0d 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-mono-natural',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#111 0%,#1a1816 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-mono-natural',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#161412 0%,#0a0a0a 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colour portraits -->
+    <div class="subcat-panel" id="portrait-color">
+      <div class="series-grid" id="portrait-color-grid">
+        <div class="series-card" onclick="openSeries('portrait-color','studio')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(140deg,#1a1510 0%,#0d0a0a 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Colour</div>
+            <div class="series-overlay-title" data-jp="スタジオ" data-en="Studio" data-fr="Studio">スタジオ</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openSeries('portrait-color','natural')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(130deg,#14100e 0%,#0a0808 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Colour</div>
+            <div class="series-overlay-title" data-jp="自然光" data-en="Natural Light" data-fr="Lumière naturelle">自然光</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="portrait-color-studio">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('portrait-color','portrait-color-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Colour / <span>スタジオ</span>" data-en="Portrait / Colour / <span>Studio</span>" data-fr="Portrait / Couleur / <span>Studio</span>">Portrait / Colour / <span>スタジオ</span></div>
+        </div>
+        <div class="detail-title" data-jp="スタジオポートレート" data-en="Studio Portraits" data-fr="Portraits Studio">スタジオポートレート</div>
+        <div class="detail-meta">Portrait / Colour</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-color-studio',0)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#1a1510 0%,#0d0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-color-studio',1)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#161210 0%,#0a0808 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-color-studio',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#181410 0%,#0c0a08 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+
+      <div class="series-detail" id="portrait-color-natural">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeSeries('portrait-color','portrait-color-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Colour / <span>自然光</span>" data-en="Portrait / Colour / <span>Natural Light</span>" data-fr="Portrait / Couleur / <span>Lumière naturelle</span>">Portrait / Colour / <span>自然光</span></div>
+        </div>
+        <div class="detail-title" data-jp="自然光ポートレート" data-en="Natural Light Portraits" data-fr="Portraits en lumière naturelle">自然光ポートレート</div>
+        <div class="detail-meta">Portrait / Colour</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-color-natural',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#14100e 0%,#0a0808 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-color-natural',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#161210 0%,#0b0808 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('portrait-color-natural',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#181410 0%,#0c0a08 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STREET / SNAP ══ -->
+  <div class="cat-panel" id="cat-street" hidden>
+    <div class="series-grid" id="street-grid">
+
+      <div class="series-card" onclick="openSeries('street','tokyo')">
+        <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(140deg,#141210 0%,#0a0a0a 100%);"></div></div>
+        <div class="series-overlay">
+          <div class="series-overlay-label" data-jp="スナップ" data-en="Street" data-fr="Rue">Street</div>
+          <div class="series-overlay-title" data-jp="東京" data-en="Tokyo" data-fr="Tokyo">東京</div>
+          <div class="series-overlay-arrow">→</div>
+        </div>
+      </div>
+
+      <div class="series-card" onclick="openSeries('street','paris')">
+        <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);"></div></div>
+        <div class="series-overlay">
+          <div class="series-overlay-label">Street</div>
+          <div class="series-overlay-title" data-jp="パリ" data-en="Paris" data-fr="Paris">パリ</div>
+          <div class="series-overlay-arrow">→</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="series-detail" id="street-tokyo">
+      <div class="series-detail-header">
+        <button class="back-btn" onclick="closeSeries('street','street-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+        <div class="detail-breadcrumb" data-jp="スナップ / <span>東京</span>" data-en="Street / <span>Tokyo</span>" data-fr="Rue / <span>Tokyo</span>">スナップ / <span>東京</span></div>
+      </div>
+      <div class="detail-title" data-jp="東京" data-en="Tokyo" data-fr="Tokyo">東京</div>
+      <div class="detail-meta">Street Photography — Tokyo</div>
+      <div class="photo-masonry">
+        <div class="photo-masonry-item" onclick="openLightbox('street-tokyo',0)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('street-tokyo',1)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#111 0%,#1c1a18 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('street-tokyo',2)"><div class="photo-masonry-ph" style="background:linear-gradient(150deg,#131110 0%,#0d0d0d 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('street-tokyo',3)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#0e0e0e 0%,#1a1816 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+    </div>
+
+    <div class="series-detail" id="street-paris">
+      <div class="series-detail-header">
+        <button class="back-btn" onclick="closeSeries('street','street-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+        <div class="detail-breadcrumb" data-jp="スナップ / <span>パリ</span>" data-en="Street / <span>Paris</span>" data-fr="Rue / <span>Paris</span>">スナップ / <span>パリ</span></div>
+      </div>
+      <div class="detail-title" data-jp="パリ" data-en="Paris" data-fr="Paris">パリ</div>
+      <div class="detail-meta">Street Photography — Paris, 2025–2026</div>
+      <div class="photo-masonry">
+        <div class="photo-masonry-item" onclick="openLightbox('street-paris',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('street-paris',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('street-paris',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0f0f0f 0%,#1c1816 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('street-paris',3)"><div class="photo-masonry-ph" style="background:linear-gradient(145deg,#131110 0%,#0d0d0d 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FINE ART -->
+<section id="fineart">
+  <div class="section-label reveal" data-jp="02 — 作品" data-en="02 — Fine Art" data-fr="02 — Art">02 — 作品</div>
+  <div class="books-grid">
+    <div class="book-card reveal">
+      <button class="book-cover" onclick="openLightbox('fineart',0)">
+        <img src="kokusho-cover.png" alt="Kokusho photobook cover">
+          <div class="book-cover-title">黒生</div>
+          <div class="book-cover-sub">La vie en noir</div>
+        </div>
+      </button>
+      <div>
+        <div class="book-title" style="margin:.5rem 0 .8rem;">黒生 <em>/ La vie en noir</em></div>
+        <div class="book-desc"
+          data-jp="写真集「黒生」。2026年3月6日～10日、パリ5区Galerie Kurokamiにて個展開催。"
+          data-en="Photobook Kuroi. Solo exhibition held at Galerie Kurokami, Paris 5e, 6–10 March 2026."
+          data-fr="Livre photo Kuroi. Exposition individuelle à la Galerie Kurokami, Paris 5e, du 6 au 10 mars 2026.">
+          写真集「黒生」。2026年3月6日～10日、パリ5区Galerie Kurokamiにて個展開催。
+        </div>
+        <div class="book-specs">
+          <div><div class="spec-key" data-jp="展示" data-en="Exhibition" data-fr="Exposition">展示</div><div class="spec-val">Paris</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fineart-gallery">
+    <div class="fineart-gallery-title" data-jp="黒生 — 作品写真" data-en="Kokusho — Project Photographs" data-fr="Kokusho — Photographies du projet">黒生 — 作品写真</div>
+    <div id="gallery-fineart">
+      <div class="fineart-gallery-title" data-jp="写真集" data-en="Photobook" data-fr="Livre photo">写真集</div>
+      <div class="photo-masonry fineart-photo-row">
+      <div class="photo-masonry-item" onclick="openLightbox('fineart',0)"><img src="kokusho/1.jpeg" alt="Kokusho project photograph, image 1" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+      <div class="photo-masonry-item" onclick="openLightbox('fineart',1)"><img src="kokusho/2.jpeg" alt="Kokusho project photograph, image 2" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+      <div class="photo-masonry-item" onclick="openLightbox('fineart',2)"><img src="kokusho/3.jpeg" alt="Kokusho project photograph, image 3" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+      <div class="fineart-gallery-title" data-jp="展示" data-en="Exhibitions" data-fr="Expositions">展示</div>
+      <div class="photo-masonry fineart-photo-row">
+      <div class="photo-masonry-item" data-meta-jp="2026年3月6日〜10日 — Galerie Kurokami、パリ5区" data-meta-en="6–10 March 2026 — Galerie Kurokami, Paris 5e" data-meta-fr="6–10 mars 2026 — Galerie Kurokami, Paris 5e" onclick="openLightbox('fineart',3)"><img src="kokusho/november19_4.jpeg" alt="Kokusho exhibition photograph, image 1" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+      <div class="photo-masonry-item" data-meta-jp="2026年3月6日〜10日 — Galerie Kurokami、パリ5区" data-meta-en="6–10 March 2026 — Galerie Kurokami, Paris 5e" data-meta-fr="6–10 mars 2026 — Galerie Kurokami, Paris 5e" onclick="openLightbox('fineart',4)"><img src="kokusho/march_5.jpeg" alt="Kokusho exhibition photograph, image 2" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXHIBITIONS -->
+<section id="exhibitions">
+  <div class="section-label reveal" data-jp="03 — 展示歴" data-en="03 — Exhibitions" data-fr="03 — Expositions">03 — 展示歴</div>
+  <div class="exh-list">
+    <div class="exh-item">
+      <div class="exh-year">2026</div>
+      <div class="exh-body">
+        <div class="exh-title" data-jp="黒生 (La vie en noir) — 個展" data-en="黒生 (La vie en noir) — Solo Exhibition" data-fr="黒生 (La vie en noir) — Exposition individuelle">黒生 (La vie en noir) — 個展</div>
+        <div class="exh-venue"
+          data-jp="Galerie Kurokami, Paris 5e — 2026年3月6日〜10日"
+          data-en="Galerie Kurokami, Paris 5e — 6–10 March 2026"
+          data-fr="Galerie Kurokami, Paris 5e — 6–10 mars 2026">Galerie Kurokami, Paris 5e — 6–10 March 2026</div>
+      </div>
+      <div class="exh-type" data-jp="個展" data-en="Solo" data-fr="Solo">個展</div>
+    </div>
+    <div class="exh-item">
+      <div class="exh-year">2025</div>
+      <div class="exh-body">
+        <div class="exh-title" data-jp="Paris Art Challenge — グループ展" data-en="Paris Art Challenge — Group Exhibition" data-fr="Paris Art Challenge — Exposition collective">Paris Art Challenge — グループ展</div>
+        <div class="exh-venue"
+          data-jp="Kiff et Marais, Paris — 2025年11月19日〜12月1日"
+          data-en="Kiff et Marais, Paris — 19 November–1 December 2025"
+          data-fr="Kiff et Marais, Paris — 19 novembre–1 décembre 2025">Kiff et Marais, Paris — 19 November–1 December 2025</div>
+      </div>
+      <div class="exh-type" data-jp="グループ展" data-en="Group" data-fr="Collectif">グループ展</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="section-label reveal" data-jp="01 — Work" data-en="01 — Work" data-fr="01 — Work">01 — Work</div>
+
+  <!-- Category tabs -->
+  <div class="cat-tabs reveal" id="works-tabs">
+    <button class="cat-tab active" onclick="showWorkCat('live')" data-jp="ライブ" data-en="Live" data-fr="Live">ライブ</button>
+    <button class="cat-tab" onclick="showWorkCat('fashion')" data-jp="ファッション" data-en="Fashion" data-fr="Mode">ファッション</button>
+    <button class="cat-tab" onclick="showWorkCat('portrait')" data-jp="ポートレート" data-en="Portrait" data-fr="Portrait">ポートレート</button>
+    <button class="cat-tab" onclick="showWorkCat('music-jackets')" data-jp="Music Jackets" data-en="Music Jackets" data-fr="Music Jackets">Music Jackets</button>
+  </div>
+
+  <!-- ── LIVE ── -->
+  <div class="wcat-panel active" id="wcat-live">
+    <div data-live-year-browser></div>
+  </div>
+
+  <!-- ── FASHION ── -->
+  <div class="wcat-panel" id="wcat-fashion">
+    <div class="subcat-tabs">
+      <button class="subcat-tab active" onclick="showWorkSubcat('fashion','tokyo')" data-jp="Tokyo" data-en="Tokyo" data-fr="Tokyo">Tokyo</button>
+      <span class="split-sep">/</span>
+      <button class="subcat-tab" onclick="showWorkSubcat('fashion','paris')" data-jp="Paris" data-en="Paris" data-fr="Paris">Paris</button>
+    </div>
+    <!-- Backstage -->
+    <div class="subcat-panel active" id="wfashion-tokyo">
+      <div class="series-grid" id="wfashion-tokyo-grid">
+        <div class="series-card" onclick="openWorkSeries('wfashion-backstage','reverberate')">
+          <div class="series-thumb">
+            <img src="Fashion/Paris/Reverterate 26AW/20260122-_DSC1114cover .jpg" alt="Reverberate backstage, Paris Fashion Week 2026">
+          </div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Backstage</div>
+            <div class="series-overlay-title">reverberate</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openWorkSeries('wfashion-backstage','shimofes')">
+          <div class="series-thumb">
+            <div class="series-thumb-ph" style="background:linear-gradient(150deg,#141210 0%,#0a0a0a 100%);"></div>
+          </div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Backstage</div>
+            <div class="series-overlay-title">Shimo Fes 2024</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="series-detail" id="wfashion-backstage-reverberate">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeWorkSeries('wfashion-backstage','wfashion-backstage-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Backstage / <span>reverberate</span></div>
+        </div>
+        <div class="detail-title">reverberate</div>
+        <div class="detail-meta">Backstage Photography</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-backstage-reverberate',0)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1816 100%);padding-top:133%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-backstage-reverberate',1)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0d0d0d 100%);padding-top:75%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-backstage-reverberate',2)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0e0e0e 0%,#1c1a18 100%);padding-top:100%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="series-detail" id="wfashion-backstage-shimofes">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeWorkSeries('wfashion-backstage','wfashion-backstage-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Backstage / <span>Shimo Fes 2024</span></div>
+        </div>
+        <div class="detail-title">Shimo Fes 2024</div>
+        <div class="detail-meta">Backstage Photography — 2024</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-backstage-shimofes',0)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(150deg,#141210 0%,#0a0a0a 100%);padding-top:100%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-backstage-shimofes',1)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1816 100%);padding-top:133%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-backstage-shimofes',2)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0f0f0f 0%,#1c1814 100%);padding-top:75%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Show -->
+    <div class="subcat-panel" id="wfashion-show" hidden>
+      <div class="series-grid" id="wfashion-show-grid">
+        <div class="series-card" onclick="openWorkSeries('wfashion-show','show2024')">
+          <div class="series-thumb">
+            <div class="series-thumb-ph" style="background:linear-gradient(140deg,#131210 0%,#0a0a0a 100%);"></div>
+          </div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Show</div>
+            <div class="series-overlay-title">2024</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="series-detail" id="wfashion-show-show2024">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeWorkSeries('wfashion-show','wfashion-show-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb">Fashion / Show / <span>2024</span></div>
+        </div>
+        <div class="detail-title">Show 2024</div>
+        <div class="detail-meta">Fashion Photography — 2024</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-show-show2024',0)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(140deg,#131210 0%,#0a0a0a 100%);padding-top:133%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+          <div class="photo-masonry-item" onclick="openLightbox('wfashion-show-show2024',1)">
+            <div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);padding-top:75%;"></div>
+            <div class="lightbox-hint"><span>View</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="subcat-panel" id="wfashion-paris">
+      <div class="series-grid" id="wfashion-paris-grid"></div>
+    </div>
+    <div class="subcat-panel" id="wfashion-les-six">
+      <div class="series-grid" id="wfashion-les-six-grid"></div>
+    </div>
+  </div>
+
+  <!-- ── PORTRAIT ── -->
+  <div class="wcat-panel" id="wcat-portrait">
+    <div class="subcat-tabs">
+      <button class="subcat-tab active" onclick="showWorkSubcat('portrait','mono')" data-jp="モノクローム" data-en="Monochrome" data-fr="Monochrome">モノクローム</button>
+      <span class="split-sep">/</span>
+      <button class="subcat-tab" onclick="showWorkSubcat('portrait','color')" data-jp="カラー" data-en="Colour" data-fr="Couleur">カラー</button>
+    </div>
+    <div class="subcat-panel active" id="wportrait-mono">
+      <div class="series-grid" id="wportrait-mono-grid">
+        <div class="series-card" onclick="openWorkSeries('wportrait-mono','portrait')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(135deg,#1a1a1a 0%,#0a0a0a 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Monochrome</div>
+            <div class="series-overlay-title" data-jp="ポートレート" data-en="Portrait" data-fr="Portrait">ポートレート</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openWorkSeries('wportrait-mono','fashion')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(130deg,#111 0%,#1a1816 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Monochrome</div>
+            <div class="series-overlay-title" data-jp="ファッション" data-en="Fashion" data-fr="Mode">ファッション</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="series-detail" id="wportrait-mono-portrait">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeWorkSeries('wportrait-mono','wportrait-mono-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Monochrome / <span>ポートレート</span>" data-en="Portrait / Monochrome / <span>Portrait</span>" data-fr="Portrait / Monochrome / <span>Portrait</span>">Portrait / Monochrome / <span>ポートレート</span></div>
+        </div>
+        <div class="detail-title" data-jp="ポートレート" data-en="Portrait" data-fr="Portrait">ポートレート</div>
+        <div class="detail-meta">Portrait / Monochrome</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-mono-portrait',0)"><div class="photo-masonry-ph" style="background:linear-gradient(135deg,#1a1a1a 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-mono-portrait',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141414 0%,#0d0d0d 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-mono-portrait',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#111 0%,#1a1a1a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+      <div class="series-detail" id="wportrait-mono-fashion">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeWorkSeries('wportrait-mono','wportrait-mono-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Monochrome / <span>ファッション</span>" data-en="Portrait / Monochrome / <span>Fashion</span>" data-fr="Portrait / Monochrome / <span>Mode</span>">Portrait / Monochrome / <span>ファッション</span></div>
+        </div>
+        <div class="detail-title" data-jp="ファッション" data-en="Fashion" data-fr="Mode">ファッション</div>
+        <div class="detail-meta">Portrait / Monochrome</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-mono-fashion',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1816 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-mono-fashion',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0d0d0d 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="subcat-panel" id="wportrait-color">
+      <div class="series-grid" id="wportrait-color-grid">
+        <div class="series-card" onclick="openWorkSeries('wportrait-color','product')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(140deg,#1a1510 0%,#0d0a0a 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Colour</div>
+            <div class="series-overlay-title" data-jp="商品撮影" data-en="Product" data-fr="Produit">商品撮影</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+        <div class="series-card" onclick="openWorkSeries('wportrait-color','portrait')">
+          <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(130deg,#14100e 0%,#0a0808 100%);"></div></div>
+          <div class="series-overlay">
+            <div class="series-overlay-label">Portrait / Colour</div>
+            <div class="series-overlay-title" data-jp="ポートレート" data-en="Portrait" data-fr="Portrait">ポートレート</div>
+            <div class="series-overlay-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="series-detail" id="wportrait-color-product">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeWorkSeries('wportrait-color','wportrait-color-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Colour / <span>商品撮影</span>" data-en="Portrait / Colour / <span>Product</span>" data-fr="Portrait / Couleur / <span>Produit</span>">Portrait / Colour / <span>商品撮影</span></div>
+        </div>
+        <div class="detail-title" data-jp="商品撮影" data-en="Product Photography" data-fr="Photo produit">商品撮影</div>
+        <div class="detail-meta">Portrait / Colour — 2025–2026</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-color-product',0)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#1a1510 0%,#0d0a0a 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-color-product',1)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#161210 0%,#0a0808 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-color-product',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#181410 0%,#0c0a08 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+      <div class="series-detail" id="wportrait-color-portrait">
+        <div class="series-detail-header">
+          <button class="back-btn" onclick="closeWorkSeries('wportrait-color','wportrait-color-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+          <div class="detail-breadcrumb" data-jp="Portrait / Colour / <span>ポートレート</span>" data-en="Portrait / Colour / <span>Portrait</span>" data-fr="Portrait / Couleur / <span>Portrait</span>">Portrait / Colour / <span>ポートレート</span></div>
+        </div>
+        <div class="detail-title" data-jp="ポートレート" data-en="Portrait" data-fr="Portrait">ポートレート</div>
+        <div class="detail-meta">Portrait / Colour</div>
+        <div class="photo-masonry">
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-color-portrait',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#14100e 0%,#0a0808 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+          <div class="photo-masonry-item" onclick="openLightbox('wportrait-color-portrait',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#161210 0%,#0b0808 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STREET ── -->
+  <div class="wcat-panel" id="wcat-street" hidden>
+    <div class="series-grid" id="wstreet-grid">
+      <div class="series-card" onclick="openWorkSeries('wstreet','tokyo')">
+        <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(140deg,#141210 0%,#0a0a0a 100%);"></div></div>
+        <div class="series-overlay">
+          <div class="series-overlay-label" data-jp="スナップ" data-en="Street" data-fr="Rue">Street</div>
+          <div class="series-overlay-title" data-jp="東京" data-en="Tokyo" data-fr="Tokyo">東京</div>
+          <div class="series-overlay-arrow">→</div>
+        </div>
+      </div>
+      <div class="series-card" onclick="openWorkSeries('wstreet','paris')">
+        <div class="series-thumb"><div class="series-thumb-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);"></div></div>
+        <div class="series-overlay">
+          <div class="series-overlay-label">Street</div>
+          <div class="series-overlay-title" data-jp="パリ" data-en="Paris" data-fr="Paris">パリ</div>
+          <div class="series-overlay-arrow">→</div>
+        </div>
+      </div>
+    </div>
+    <div class="series-detail" id="wstreet-tokyo">
+      <div class="series-detail-header">
+        <button class="back-btn" onclick="closeWorkSeries('wstreet','wstreet-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+        <div class="detail-breadcrumb" data-jp="Street / <span>東京</span>" data-en="Street / <span>Tokyo</span>" data-fr="Rue / <span>Tokyo</span>">Street / <span>東京</span></div>
+      </div>
+      <div class="detail-title" data-jp="東京" data-en="Tokyo" data-fr="Tokyo">東京</div>
+      <div class="detail-meta">Street Photography — Tokyo</div>
+      <div class="photo-masonry">
+        <div class="photo-masonry-item" onclick="openLightbox('wstreet-tokyo',0)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('wstreet-tokyo',1)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#111 0%,#1c1a18 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('wstreet-tokyo',2)"><div class="photo-masonry-ph" style="background:linear-gradient(150deg,#131110 0%,#0d0d0d 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+    </div>
+    <div class="series-detail" id="wstreet-paris">
+      <div class="series-detail-header">
+        <button class="back-btn" onclick="closeWorkSeries('wstreet','wstreet-grid')" data-jp="もどる" data-en="Back" data-fr="Retour">もどる</button>
+        <div class="detail-breadcrumb" data-jp="Street / <span>パリ</span>" data-en="Street / <span>Paris</span>" data-fr="Rue / <span>Paris</span>">Street / <span>パリ</span></div>
+      </div>
+      <div class="detail-title" data-jp="パリ" data-en="Paris" data-fr="Paris">パリ</div>
+      <div class="detail-meta">Street Photography — Paris, 2025–2026</div>
+      <div class="photo-masonry">
+        <div class="photo-masonry-item" onclick="openLightbox('wstreet-paris',0)"><div class="photo-masonry-ph" style="background:linear-gradient(130deg,#111 0%,#1a1714 100%);padding-top:100%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('wstreet-paris',1)"><div class="photo-masonry-ph" style="background:linear-gradient(140deg,#141210 0%,#0a0a0a 100%);padding-top:133%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('wstreet-paris',2)"><div class="photo-masonry-ph" style="background:linear-gradient(120deg,#0f0f0f 0%,#1c1816 100%);padding-top:75%;"></div><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MUSIC JACKETS ── -->
+  <div class="wcat-panel" id="wcat-music-jackets">
+    <div class="subcat-tabs live-year-tabs" id="work-jacket-year-tabs" aria-label="Music jacket work by year">
+      <button class="subcat-tab active" type="button" onclick="showWorkJacketYear('2026')">2026</button>
+      <button class="subcat-tab" type="button" onclick="showWorkJacketYear('2024')">2024</button>
+    </div>
+    <div class="live-year-panel active" data-work-jacket-year="2026">
+      <div class="fineart-gallery-title">Nishi Naoki</div>
+      <div class="photo-masonry" id="gallery-work-jackets-2026">
+        <div class="photo-masonry-item" onclick="openLightbox('work-jackets-2026',0)"><img src="Jacket /Nishi Naoki/S__361029646.jpg" alt="Nishi Naoki music jacket artwork (2026)" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('work-jackets-2026',1)"><img src="Jacket /Nishi Naoki/スクリーンショット 2026-09-30 16.50.18.png" alt="Nishi Naoki music jacket artwork (2026)" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('work-jackets-2026',2)"><img src="Jacket /Nishi Naoki/スクリーンショット 2026-09-30 16.50.36.png" alt="Nishi Naoki music jacket artwork (2026)" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+    </div>
+    <div class="live-year-panel" data-work-jacket-year="2024">
+      <div class="fineart-gallery-title">Doona</div>
+      <div class="photo-masonry" id="gallery-work-jackets-2024">
+        <div class="photo-masonry-item" onclick="openLightbox('work-jackets-2024',0)"><img src="Jacket /Doona/_DSF8694.jpg" alt="Doona music jacket artwork (2024)" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+        <div class="photo-masonry-item" onclick="openLightbox('work-jackets-2024',1)"><img src="Jacket /Doona/_DSF8698.jpg" alt="Doona music jacket artwork (2024)" loading="lazy"><div class="lightbox-hint"><span>View</span></div></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal" data-jp="04 — About" data-en="04 — About" data-fr="04 — À propos">04 — About</div>
+
+  <!-- Self-portrait + name -->
+  <div class="about-hero reveal">
+    <div class="about-portrait-large">
+    <img src="Profile.jpg" alt="Asuka Konishi"></div>
+    <div class="about-hero-name">
+      <p class="about-name-jp">小西 未来翔</p>
+      <h2 class="about-name">Asuka <em>Konishi</em></h2>
+      <p class="about-subtitle" data-jp="写真家 / アーティスト" data-en="Photographer / Artist" data-fr="Photographe / Artiste">写真家 / アーティスト</p>
+        <div class="about-body">
+    <div class="about-bio-col reveal reveal-delay-1">
+      <div class="about-bio-label" data-jp="プロフィール" data-en="Biography" data-fr="Biographie">プロフィール</div>
+    </div>
+  </div>
+
+  <!-- Bio + credits -->
+
+      <!-- ▼ ここに自己紹介文・経歴を入れてください ▼ -->
+      <div class="about-bio">
+        <p data-jp="2003年、三重出身。幼少から大学卒業まで、東京で育つ。2025年、渡仏。2026年3月にパリ5区にあるGalerie Kurokami にて個展を開催。同展示にて、自身初の写真集「黒生」を発表。現在は東京とパリを中心に活動。"
+           data-en="Born in Mie in 2003, she grew up in Tokyo from early childhood through university graduation. She moved to France in 2025. In March 2026, she held a solo exhibition at Galerie Kurokami in Paris's 5th arrondissement, where she presented her first photobook, Kuroi. She is currently based between Tokyo and Paris."
+           data-fr="Née à Mie en 2003, elle a grandi à Tokyo, de sa petite enfance jusqu'à la fin de ses études universitaires. Elle s'est installée en France en 2025. En mars 2026, elle a présenté une exposition personnelle à la Galerie Kurokami, dans le 5e arrondissement de Paris, où elle a publié son premier livre photo, Kuroi. Elle partage aujourd'hui son activité entre Tokyo et Paris.">
+          2003年、三重出身。幼少から大学卒業まで、東京で育つ。2025年、渡仏。2026年3月にパリ5区にあるGalerie Kurokami にて個展を開催。同展示にて、自身初の写真集「黒生」を発表。現在は東京とパリを中心に活動。
+        </p>
+      </div>
+    <div class="about-credits-col reveal reveal-delay-2">
+      <div class="about-credits">
+        <div>
+          <div class="credit-key" data-jp="拠点" data-en="Based" data-fr="Basée">拠点</div>
+          <div class="credit-val" data-jp="東京 / パリ" data-en="Tokyo / Paris" data-fr="Tokyo / Paris">東京 / パリ</div>
+        </div>
+        <div>
+          <div class="credit-key" data-jp="展示歴" data-en="Exhibitions" data-fr="Expositions">展示歴</div>
+          <div class="credit-val" data-jp="Galerie Kurokami, Paris (2026)<br>Kiff et Marais, Paris (2025)" data-en="Galerie Kurokami, Paris (2026)<br>Kiff et Marais, Paris (2025)" data-fr="Galerie Kurokami, Paris (2026)<br>Kiff et Marais, Paris (2025)">Galerie Kurokami, Paris (2026)<br>Kiff et Marais, Paris (2025)</div>
+        </div>
+        <div>
+          <div class="credit-key" data-jp="言語" data-en="Languages" data-fr="Langues">言語</div>
+          <div class="credit-val" data-jp="日本語 / 英語 / フランス語" data-en="Japanese / English / French" data-fr="Japonais / Anglais / Français">日本語 / 英語 / フランス語</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal"
+    data-jp="05 — Contact"
+    data-en="05 — Contact"
+    data-fr="05 — Contact">05 — Contact</div>
+    <h2 class="contact-heading reveal reveal-delay-1"
+      data-jp="お問い合わせ"
+      data-en="Get in touch"
+      data-fr="Contactez-moi">
+      お問い合わせ
+    </h2>
+     <div class="contact-links reveal reveal-delay-2">
+      <a href="mailto:askns.0209@gmail.com" class="contact-link">askns.0209@gmail.com</a>
+      <a href="https://www.instagram.com/askns09/" class="contact-link" target="_blank">Instagram</a>
+    </div>
+    <form class="contact-form reveal reveal-delay-3" id="contact-form">
+      <label>
+        <span data-jp="お名前" data-en="Name" data-fr="Nom">お名前</span>
+        <input type="text" name="name" autocomplete="name" required>
+      </label>
+      <label>
+        <span data-jp="メールアドレス" data-en="Email address" data-fr="Adresse e-mail">メールアドレス</span>
+        <input type="email" name="email" autocomplete="email" required>
+      </label>
+      <label>
+        <span data-jp="メッセージ" data-en="Message" data-fr="Message">メッセージ</span>
+        <textarea name="message" required></textarea>
+      </label>
+      <button type="submit" data-jp="メールで送信" data-en="Send with Gmail" data-fr="Envoyer avec Gmail">メールで送信</button>
+      <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"
+        data-jp="Gmailでメールの下書きを開きます。内容を確認して送信してください。"
+        data-en="Gmail will open a draft. Review your message and press Send."
+        data-fr="Un brouillon s’ouvrira dans Gmail. Vérifiez votre message puis appuyez sur Envoyer.">Gmailでメールの下書きを開きます。内容を確認して送信してください。</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 小西 未来翔 / Asuka Konishi</span>
+  <span data-jp="東京 / パリ" data-en="Tokyo / Paris" data-fr="Tokyo / Paris">東京 / パリ</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">Close ✕</button>
+  <button class="lightbox-nav" id="lb-prev" onclick="lbNav(-1,event)">←</button>
+  <div class="lightbox-inner">
+    <div class="lightbox-img-ph" id="lb-ph"></div>
+    <img class="lightbox-img" id="lb-img" alt="" hidden>
+  </div>
+  <button class="lightbox-nav" id="lb-next" onclick="lbNav(1,event)">→</button>
+  <div class="lightbox-caption">
+    <div class="lightbox-caption-title" id="lb-title"></div>
+    <div class="lightbox-caption-meta" id="lb-meta"></div>
+  </div>
+  <div class="lightbox-counter" id="lb-counter"></div>
+</div>
+
+<script>
+document.getElementById('photography')?.remove();
+
+const workSection = document.getElementById('works');
+const heroSection = document.getElementById('hero');
+if (!workSection || !heroSection) throw new Error('Missing hero or work section');
+heroSection.after(workSection);
+
+// CURSOR
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => { cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
+document.querySelectorAll('a,button,.series-card,.work-card,.book-card,.photo-masonry-item').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+});
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.exh-item').forEach(el => obs.observe(el));
+
+// CATEGORY TABS
+function showCat(id) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('cat-'+id).classList.add('active');
+}
+
+// SUBCATEGORY TABS (fashion/studio)
+function showSubcat(cat, id) {
+  const panel = document.getElementById('cat-'+cat) || document.querySelector('.cat-panel.active');
+  panel.querySelectorAll('.subcat-tab').forEach(t => t.classList.remove('active'));
+  panel.querySelectorAll('.subcat-panel').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById(cat+'-'+id).classList.add('active');
+}
+
+// SERIES OPEN/CLOSE
+function openSeries(cat, series) {
+  const gridId = cat.replace('-','_') + '-grid';
+  // hide all grids and details in this cat-panel (or subcat-panel)
+  const activePanel = findActivePanel(cat);
+  if (!activePanel) return;
+  activePanel.querySelectorAll('.series-grid').forEach(g => g.style.display='none');
+  activePanel.querySelectorAll('.series-detail').forEach(d => d.classList.remove('active'));
+  const detail = document.getElementById(cat+'-'+series);
+  if (detail) detail.classList.add('active');
+}
+
+function closeSeries(cat, gridId) {
+  const activePanel = findActivePanel(cat);
+  if (!activePanel) return;
+  activePanel.querySelectorAll('.series-grid').forEach(g => g.style.display='');
+  activePanel.querySelectorAll('.series-detail').forEach(d => d.classList.remove('active'));
+}
+
+function findActivePanel(cat) {
+  // Try direct cat-panel
+  const direct = document.getElementById('cat-'+cat);
+  if (direct) return direct;
+  // Try subcat-panel (e.g. fashion-backstage)
+  const sub = document.getElementById(cat);
+  if (sub) return sub;
+  return null;
+}
+
+// LIGHTBOX
+let lbGallery = [], lbIndex = 0;
+
+function openLightbox(galleryId, idx, galleryElement) {
+  const clickedItem = typeof event !== 'undefined' && event.currentTarget instanceof Element
+    ? event.currentTarget.closest('.photo-masonry-item')
+    : null;
+  const galleryById = document.getElementById('gallery-'+galleryId) || document.getElementById(galleryId);
+  const container = galleryElement
+    || clickedItem?.closest('.photo-masonry')
+    || (galleryById?.classList.contains('photo-masonry') ? galleryById : galleryById?.querySelector('.photo-masonry'))
+    || document.querySelector('.series-detail.active .photo-masonry');
+  lbGallery = Array.from((container || document).querySelectorAll('.photo-masonry-item'));
+  lbIndex = Math.max(0, Math.min(lbGallery.length - 1, idx));
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  updateLightbox();
+}
+
+function updateLightbox() {
+  const item = lbGallery[lbIndex];
+  const ph = document.getElementById('lb-ph');
+  const img = document.getElementById('lb-img');
+  const title = document.getElementById('lb-title');
+  const meta = document.getElementById('lb-meta');
+  if (item) {
+    const bg = item.querySelector('.photo-masonry-ph');
+    const itemImg = item.querySelector('img');
+    if (itemImg) {
+      img.src = itemImg.currentSrc || itemImg.src;
+      img.alt = itemImg.alt;
+      img.hidden = false;
+      ph.hidden = true;
+    } else {
+      img.removeAttribute('src');
+      img.alt = '';
+      img.hidden = true;
+      ph.hidden = false;
+      if (bg) ph.style.background = bg.style.background;
+    }
+    title.textContent = item.dataset.lightboxTitle || '';
+    const lang = ['ja', 'fr'].includes(document.documentElement.lang) ? document.documentElement.lang : 'en';
+    meta.textContent = item.dataset[`meta${lang[0].toUpperCase()}${lang.slice(1)}`] || '';
+  } else {
+    img.removeAttribute('src');
+    img.hidden = true;
+    ph.hidden = false;
+    title.textContent = '';
+    meta.textContent = '';
+  }
+  document.getElementById('lb-counter').textContent = (lbIndex+1) + ' / ' + lbGallery.length;
+  document.getElementById('lb-prev').style.opacity = lbIndex > 0 ? '1' : '0.2';
+  document.getElementById('lb-next').style.opacity = lbIndex < lbGallery.length-1 ? '1' : '0.2';
+}
+
+function lbNav(dir, e) {
+  e?.stopPropagation();
+  lbIndex = Math.max(0, Math.min(lbGallery.length-1, lbIndex+dir));
+  updateLightbox();
+}
+
+function closeLightbox(e) {
+  if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close') && !e.target.closest('.lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('lightbox');
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') lbNav(-1, e);
+  if (e.key === 'ArrowRight') lbNav(1, e);
+  if (e.key === 'Escape') { lb.classList.remove('open'); document.body.style.overflow=''; }
+});
+
+// WORKS — category tabs
+function showWorkCat(id) {
+  document.querySelectorAll('#works-tabs .cat-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.wcat-panel').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('wcat-'+id).classList.add('active');
+}
+
+function showWorkJacketYear(year) {
+  document.querySelectorAll('#work-jacket-year-tabs .subcat-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.textContent.trim() === year);
+  });
+  document.querySelectorAll('#wcat-music-jackets [data-work-jacket-year]').forEach(panel => {
+    panel.classList.toggle('active', panel.dataset.workJacketYear === year);
+  });
+}
+
+// WORKS — subcat tabs (fashion/studio)
+function showWorkSubcat(cat, id) {
+  const panel = document.getElementById('wcat-'+cat);
+  if (!panel) return;
+  panel.querySelectorAll('.subcat-tab').forEach(t => t.classList.remove('active'));
+  panel.querySelectorAll('.subcat-panel').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('w'+cat+'-'+id).classList.add('active');
+}
+
+// WORKS — series open/close
+function openWorkSeries(cat, series) {
+  const panel = findWorkPanel(cat);
+  if (!panel) return;
+  panel.querySelectorAll('.series-grid').forEach(g => g.style.display='none');
+  panel.querySelectorAll('.series-detail').forEach(d => d.classList.remove('active'));
+  const detail = document.getElementById(cat+'-'+series);
+  if (detail) detail.classList.add('active');
+}
+
+function closeWorkSeries(cat, gridId) {
+  const panel = findWorkPanel(cat);
+  if (!panel) return;
+  panel.querySelectorAll('.series-grid').forEach(g => g.style.display='');
+  panel.querySelectorAll('.series-detail').forEach(d => d.classList.remove('active'));
+}
+
+function findWorkPanel(cat) {
+  // Try wcat-panel
+  const direct = document.getElementById('wcat-'+cat);
+  if (direct) return direct;
+  // Try subcat-panel (e.g. wfashion-backstage)
+  const sub = document.getElementById(cat);
+  if (sub) return sub;
+  return null;
+}
+
+const fashionCollectionGroups = [
+  {
+    panelId: 'wfashion-tokyo',
+    gridId: 'wfashion-tokyo-grid',
+    label: 'Tokyo',
+    labelJp: 'Tokyo',
+    meta: 'Fashion — Tokyo',
+    collections: [
+      {
+        id: 'enfold',
+        title: 'ENFOLD',
+        folder: 'Fashion/Tokyo/Rakuten Fashion Week 2027ss/ENFOLD 27ss',
+        cover: '20050102-_DSC0100 cover.jpeg',
+        coverPosition: '64% 42%',
+        photos: '20050102-_DSC0011.jpeg 20050102-_DSC0015.jpeg 20050102-_DSC0016.jpeg 20050102-_DSC0047.jpeg 20050102-_DSC0049.jpeg 20050102-_DSC0050.jpeg 20050102-_DSC0054.jpeg 20050102-_DSC0059.jpeg 20050102-_DSC0060.jpeg 20050102-_DSC0067.jpeg 20050102-_DSC0075.jpeg 20050102-_DSC0085.jpeg 20050102-_DSC0086.jpeg 20050102-_DSC0093.jpeg 20050102-_DSC0095.jpeg 20050102-_DSC0098.jpeg 20050102-_DSC0099.jpeg 20050102-_DSC0972.jpeg 20050102-_DSC0978.jpeg 20050102-_DSC0985.jpeg 20050102-_DSC0995.jpeg'.split(' ')
+      },
+      {
+        id: 'mitsuru-okazaki',
+        title: 'Mitsuru Okazaki',
+        folder: 'Fashion/Tokyo/Rakuten Fashion Week 2027ss/Mitsuru okazaki 27ss',
+        cover: '20260901-_DSC0020 cover.jpeg',
+        coverPosition: '50% 12%',
+        photos: '20260901-_DSC0027.jpeg 20260901-_DSC0082.jpeg 20260901-_DSC0098.jpeg 20260901-_DSC0101.jpeg 20260901-_DSC0110.jpeg 20260901-_DSC0117.jpeg 20260901-_DSC0124.jpeg 20260901-_DSC0130.jpeg 20260901-_DSC0134.jpeg 20260901-_DSC0138.jpeg 20260901-_DSC0141.jpeg 20260901-_DSC0150.jpeg 20260901-_DSC0157.jpeg 20260901-_DSC0166.jpeg 20260901-_DSC0169.jpeg 20260901-_DSC0175.jpeg 20260901-_DSC0177.jpeg 20260901-_DSC0187.jpeg 20260901-_DSC0202.jpeg'.split(' ')
+      },
+      {
+        id: 'orimi',
+        title: 'ORIMI',
+        folder: 'Fashion/Tokyo/Rakuten Fashion Week 2027ss/ORIMI 27ss',
+        cover: '20050101-_DSC0447cover .jpeg',
+        coverPosition: '58% 30%',
+        photos: '20050101-_DSC0614.jpeg 20260904-_DSC6003.jpeg 20260904-_DSC6120.jpeg 20260904-_DSC6166.jpeg 20260904-_DSC6219.jpeg 20260904-_DSC6385.jpeg 20260904-_DSC6391.jpeg 20260904-_DSC6421.jpeg 20260904-_DSC6439.jpeg 20260904-_DSC6452.jpeg 20260904-_DSC6459.jpeg 20260904-_DSC6462.jpeg 20260904-_DSC6487.jpeg 20260904-_DSC6496.jpeg 20260904-_DSC6507.jpeg 20260904-_DSC6509.jpeg 20260904-_DSC6510.jpeg 20260904-_DSC6512.jpeg 20260904-_DSC6587.jpeg 20260904-_DSC6600.jpeg 20260904-_DSC6601.jpeg 20260904-_DSC6602.jpeg'.split(' ')
+      },
+      {
+        id: 'yoshiokubo',
+        title: 'Yoshiokubo',
+        folder: 'Fashion/Tokyo/Rakuten Fashion Week 2027ss/Yoshiokubo 27ss',
+        cover: '20050102-_DSC0387 cover.jpeg',
+        coverPosition: '65% 48%',
+        photos: '20050102-_DSC0228.jpeg 20050102-_DSC0230.jpeg 20050102-_DSC0252.jpeg 20050102-_DSC0408.jpeg 20050102-_DSC0429.jpeg 20050102-_DSC0443.jpeg 20050102-_DSC0448.jpeg 20050102-_DSC0450.jpeg 20050102-_DSC0450のコピー.jpeg 20050102-_DSC0470.jpeg 20050102-_DSC0508.jpeg 20050102-_DSC0514.jpeg 20050102-_DSC0519.jpeg 20260831-_DSC5270.jpeg 20260831-_DSC5278.jpeg 20260831-_DSC5291.jpeg 20260831-_DSC5305.jpeg 20260831-_DSC5311.jpeg 20260831-_DSC5331.jpeg 20260831-_DSC5409.jpeg'.split(' ')
+      },
+      {
+        id: 'yusho-kobayashi',
+        title: 'Yusho Kobayashi',
+        folder: 'Fashion/Tokyo/Rakuten Fashion Week 2027ss/Yushokobayashi 27ss',
+        cover: '20260902-_DSC5612cover .jpeg',
+        coverPosition: '72% 34%',
+        photos: '20050102-_DSC0003.jpeg 20050102-_DSC0005.jpeg 20050102-_DSC0133.jpeg 20050102-_DSC0148.jpeg 20050102-_DSC0190.jpeg 20050102-_DSC0205.jpeg 20050102-_DSC0219.jpeg 20050102-_DSC0222.jpeg 20050102-_DSC0247.jpeg 20260902-_DSC5599.jpeg 20260902-_DSC5604.jpeg 20260902-_DSC5627.jpeg 20260902-_DSC5632.jpeg 20260902-_DSC5634.jpeg 20260902-_DSC5638.jpeg 20260902-_DSC5640.jpeg 20260902-_DSC5644.jpeg 20260902-_DSC5659.jpeg 20260902-_DSC5679.jpeg 20260902-_DSC5685.jpeg 20260902-_DSC5704.jpeg 20260902-_DSC5709.jpeg 20260902-_DSC5718.jpeg 20260902-_DSC5739.jpeg 20260902-_DSC5826.jpeg 20260902-_DSC5854.jpeg'.split(' ')
+      },
+      {
+        id: 'soduk',
+        title: 'Soduk',
+        folder: 'Fashion/Tokyo/Rakuten Fashion Week 2027ss/Soduk 27ss',
+        cover: '20050101-_DSC0844cover.jpg',
+        coverPosition: '50% 15%',
+        photos: '20050101-_DSC0046.jpg 20050101-_DSC0120.jpg 20050101-_DSC0736.jpg 20050101-_DSC0737.jpg 20050101-_DSC0762.jpg 20050101-_DSC0801.jpg 20050101-_DSC0808.jpg 20050101-_DSC0823.jpg 20050101-_DSC0850.jpg 20050101-_DSC0860.jpg 20050101-_DSC0894.jpg 20050101-_DSC0897.jpg 20050101-_DSC0903.jpg 20050101-_DSC0951.jpg 20260905-_DSC6722.jpg'.split(' ')
+      },
+      {
+        id: 'les-six',
+        title: 'Les six 27SS',
+        folder: 'Fashion/Tokyo/Les six 27ss',
+        cover: '20260731-_DSC3749 cover.jpeg',
+        coverPosition: '50% 45%',
+        photos: '20260731-20260731-_DSF7628-2.jpeg 20260731-20260731-_DSF7634-2.jpeg 20260731-20260731-_DSF8009-2.jpeg 20260731-20260731-_DSF8047-2.jpeg 20260731-20260731-_DSF8106-2.jpeg 20260731-20260731-_DSF8165-2.jpeg 20260731-20260731-_DSF8208-2.jpeg 20260731-20260731-_DSF8222-2.jpeg 20260731-20260731-_DSF8414-2.jpeg 20260731-20260731-_DSF8469-2.jpeg 20260731-_DSC3460.jpeg 20260731-_DSC3497.jpeg 20260731-_DSC3506.jpeg 20260731-_DSC3558.jpeg 20260731-_DSC3635.jpeg 20260731-_DSC3636.jpeg 20260731-_DSC3657.jpeg 20260731-_DSC3662.jpeg 20260731-_DSC3753.jpeg 20260731-_DSC3827.jpeg 20260731-_DSC3994.jpeg'.split(' ')
+      }
+    ]
+  },
+  {
+    panelId: 'wfashion-paris',
+    gridId: 'wfashion-paris-grid',
+    label: 'Paris',
+    labelJp: 'Paris',
+    meta: 'Fashion — Paris',
+    collections: [
+      {
+        id: 'osqm',
+        title: 'OSQM by Lauriane Pachot',
+        folder: 'Fashion/Paris/OSQM by Lauriane pachot',
+        cover: '_DSC5196-2 cover.jpeg',
+        coverPosition: '58% 34%',
+        photos: ['_DSC5025.jpeg', '_DSC5196-2 cover.jpeg', '_DSC5303-2.jpeg', '_DSC5324.jpeg', '_DSC5330.jpeg', '_DSC5335.jpeg', '_DSC5351.jpeg', '_DSC5128.jpeg']
+      },
+      {
+        id: 'reverberate',
+        title: 'Reverberate',
+        folder: 'Fashion/Paris/Reverterate 26AW',
+        cover: '20260122-_DSC1114cover .jpg',
+        coverPosition: '50% 20%',
+        photos: '20260122-_DSC1106.jpg 20260122-_DSC1014.jpg 20260122-_DSC1202.jpg 20260122-_DSC1174.jpg 20260122-_DSC1166.jpg 20260122-_DSC1171.jpg 20260122-_DSC1168.jpg 20260122-_DSC1193.jpg'.split(' ')
+      },
+      {
+        id: 'sinecosines',
+        title: 'Sine & Cosines × Nagan Server',
+        folder: 'Fashion/Paris/Sines&cosines 26AW and naganserver',
+        cover: '20260123-_DSC1266cover .jpg',
+        coverPosition: '50% 55%',
+        photos: [
+          '20260123-_DSC1249.jpg',
+          '20260123-_DSC1261.jpg',
+          '20260123-_DSC1265.jpg',
+          '20260123-_DSC1266cover .jpg',
+          '20260123-_DSC1268.jpg',
+          '20260123-_DSC1270.jpg',
+          '20260123-_DSC1273.jpg',
+          '20260123-_DSC1279.jpg',
+          '20260123-_DSC1283.jpg',
+          '20260123-_DSC1294.jpg',
+          '20260123-_DSC1366 cover.jpg',
+          '20260123-_DSC1367.jpg',
+          '20260123-_DSC1389.jpg',
+          '20260123-_DSC1414.jpg',
+          '20260123-_DSC1424.jpg'
+        ]
+      }
+    ]
+  }
+];
+
+function renderFashionCollectionGroups() {
+  fashionCollectionGroups.forEach(group => {
+    const grid = document.getElementById(group.gridId);
+    if (!grid) throw new Error(`Missing fashion collection grid: ${group.gridId}`);
+    grid.replaceChildren();
+    grid.parentElement.querySelectorAll(':scope > .series-detail').forEach(detail => detail.remove());
+    const isWorksGroup = group.panelId.startsWith('wfashion-');
+
+    group.collections.forEach(collection => {
+      const detailId = `${group.panelId}-${collection.id}`;
+      const card = document.createElement('div');
+      card.className = 'series-card';
+      card.addEventListener('click', () => {
+        if (isWorksGroup) openWorkSeries(group.panelId, collection.id);
+        else openSeries(group.panelId, collection.id);
+      });
+
+      const thumb = document.createElement('div');
+      thumb.className = 'series-thumb';
+      const cover = document.createElement('img');
+      cover.src = `${collection.folder}/${collection.cover || collection.photos[0]}`;
+      cover.style.setProperty('--cover-position', collection.coverPosition || '50% 50%');
+      cover.alt = `${collection.title}, ${group.label}`;
+      cover.loading = 'lazy';
+      thumb.append(cover);
+      card.append(thumb);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'series-overlay';
+      const label = document.createElement('div');
+      label.className = 'series-overlay-label';
+      label.textContent = group.label;
+      const title = document.createElement('div');
+      title.className = 'series-overlay-title';
+      title.textContent = collection.title;
+      const arrow = document.createElement('div');
+      arrow.className = 'series-overlay-arrow';
+      arrow.textContent = '→';
+      overlay.append(label, title, arrow);
+      card.append(overlay);
+      grid.append(card);
+
+      const detail = document.createElement('div');
+      detail.className = 'series-detail';
+      detail.id = detailId;
+      const header = document.createElement('div');
+      header.className = 'series-detail-header';
+      const back = document.createElement('button');
+      back.className = 'back-btn';
+      back.textContent = 'Back';
+      back.dataset.jp = 'もどる';
+      back.dataset.en = 'Back';
+      back.dataset.fr = 'Retour';
+      back.addEventListener('click', () => {
+        if (isWorksGroup) closeWorkSeries(group.panelId, group.gridId);
+        else closeSeries(group.panelId, group.gridId);
+      });
+      const breadcrumb = document.createElement('div');
+      breadcrumb.className = 'detail-breadcrumb';
+      breadcrumb.textContent = `Fashion / ${group.label} / `;
+      const breadcrumbTitle = document.createElement('span');
+      breadcrumbTitle.textContent = collection.title;
+      breadcrumb.append(breadcrumbTitle);
+      header.append(back, breadcrumb);
+      const detailTitle = document.createElement('div');
+      detailTitle.className = 'detail-title';
+      detailTitle.textContent = collection.title;
+      const meta = document.createElement('div');
+      meta.className = 'detail-meta';
+      meta.textContent = group.meta;
+      const masonry = document.createElement('div');
+      masonry.className = 'photo-masonry';
+
+      collection.photos.forEach((photo, index) => {
+        const item = document.createElement('div');
+        item.className = 'photo-masonry-item';
+        item.addEventListener('click', () => openLightbox(detailId, index));
+        const image = document.createElement('img');
+        image.src = `${collection.folder}/${photo}`;
+        image.alt = `${collection.title}, ${group.label}, photo ${index + 1}`;
+        image.loading = 'lazy';
+        const hint = document.createElement('div');
+        hint.className = 'lightbox-hint';
+        const hintText = document.createElement('span');
+        hintText.textContent = 'View';
+        hint.append(hintText);
+        item.append(image, hint);
+        masonry.append(item);
+      });
+
+      detail.append(header, detailTitle, meta, masonry);
+      grid.parentElement.append(detail);
+    });
+  });
+}
+
+renderFashionCollectionGroups();
+
+const portraitGroups = [
+  {
+    panelId: 'wportrait-mono',
+    gridIds: ['wportrait-mono-grid'],
+    folder: 'Portraits/Monochrome',
+    title: 'Monochrome Portraits',
+    photos: '20260225-_DSC2844.jpg 20260225-_DSC2898.jpg 20260225-_DSC2976.jpg 20260225-_DSC3090.jpg 20260225-_DSC3102.jpg 20260225-_DSC3153.jpg 20260413-_DSC6126.jpg 20260413-_DSC6138.jpg 20260414-_DSC6183.jpg 20260527-_DSC9003-2.jpg 20260527-_DSC9046-2.jpg 20260527-_DSC9140-2.jpg 20260527-_DSC9147-2.jpg 20260527-_DSC9198-2.jpg 20260527-_DSC9338.jpg 20260730-_DSC2998.jpg 20260730-_DSC3076.jpg 20260730-_DSC3143.jpg DSCF2593.jpg DSCF2614.jpeg DSCF4082.jpeg DSCF5812.jpg DSCF7656.jpg DSCF8652-2.jpeg Job_0042.jpeg Job_0057.jpeg Job_0059.jpeg'.split(' ')
+  },
+  {
+    panelId: 'wportrait-color',
+    gridIds: ['wportrait-color-grid'],
+    folder: 'Portraits/Color',
+    title: 'Color Portraits',
+    photos: '20050102-_DSC0306.jpg 20050102-_DSC0315.jpg 20260505-_DSC8413.jpg 20260505-_DSC8418.jpg 20260527-_DSC9297-2.jpg DSCF0674.jpeg DSCF0750.jpeg DSCF0781.jpeg DSCF0801.jpeg DSCF0931.jpeg DSCF0975.jpg DSCF0994.jpg DSCF1007.jpg DSCF3508.jpeg DSCF3691.jpeg DSCF5755.jpg DSCF5809.jpeg DSCF8912.jpeg _DSC0690.jpg _DSC0703.jpg _DSC0715.jpg _DSC1362.jpg _DSC1443.jpg _DSC1454.jpg _DSC1459.jpg _DSC3779.jpg _DSC3785.jpg _DSC9556.jpg _DSC9572.jpg _DSC9598.jpg _DSC9629.jpg _DSC9668.jpg _DSF1958.jpg _DSF1973.jpg _DSF1984.jpg _DSF2234.jpg _DSF2273.jpg _DSF8785.jpeg _DSF8791.jpeg'.split(' ')
+  }
+];
+
+function renderPortraitGroups() {
+  portraitGroups.forEach(group => {
+    group.gridIds.forEach(gridId => {
+      const grid = document.getElementById(gridId);
+      if (!grid) throw new Error(`Missing portrait grid: ${gridId}`);
+      grid.replaceChildren();
+      grid.classList.remove('series-grid');
+      grid.classList.add('photo-masonry');
+      grid.parentElement.querySelectorAll(':scope > .series-detail').forEach(detail => detail.remove());
+
+      group.photos.forEach((photo, index) => {
+        const item = document.createElement('div');
+        item.className = 'photo-masonry-item';
+        const image = document.createElement('img');
+        image.src = `${group.folder}/${photo}`;
+        image.alt = `${group.title}, portrait ${index + 1}`;
+        image.loading = 'lazy';
+        const hint = document.createElement('div');
+        hint.className = 'lightbox-hint';
+        const hintText = document.createElement('span');
+        hintText.textContent = 'View';
+        hint.append(hintText);
+        item.append(image, hint);
+        item.addEventListener('click', () => openLightbox(gridId, index, grid));
+        grid.append(item);
+      });
+    });
+  });
+}
+
+renderPortraitGroups();
+
+const contactForm = document.getElementById('contact-form');
+const contactFormStatus = document.getElementById('contact-form-status');
+const contactFormMessages = {
+  ready: {
+    ja: 'Gmailでメールの下書きを開きます。内容を確認して送信してください。',
+    en: 'Gmail will open a draft. Review your message and press Send.',
+    fr: 'Un brouillon s’ouvrira dans Gmail. Vérifiez votre message puis appuyez sur Envoyer.'
+  }
+};
+function showContactFormStatus() {
+  const lang = document.documentElement.lang;
+  const language = lang === 'ja' || lang === 'fr' ? lang : 'en';
+  contactFormStatus.textContent = contactFormMessages.ready[language];
+}
+
+contactForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const formData = new FormData(contactForm);
+  const name = String(formData.get('name') || '').trim();
+  const email = String(formData.get('email') || '').trim();
+  const message = String(formData.get('message') || '').trim();
+  const query = new URLSearchParams({
+    view: 'cm',
+    fs: '1',
+    to: 'askns.0209@gmail.com',
+    su: `Portfolio inquiry from ${name}`,
+    body: `Name: ${name}\nEmail: ${email}\n\n${message}`
+  });
+  const gmailComposeUrl = `https://mail.google.com/mail/?${query.toString()}`;
+  showContactFormStatus();
+  window.open(gmailComposeUrl, '_blank', 'noopener,noreferrer');
+});
+
+const livePhotoArtists = [
+  {
+    artist: 'Nagan Server in Paris',
+    cover: '20260123-_DSC1366 cover.jpg',
+    coverPosition: '50% 43%',
+    events: [{
+      date: 'January 2026',
+      folder: 'Nagan server in Paris',
+      photos: ['20260123-_DSC1294.jpg', '20260123-_DSC1366 cover.jpg', '20260123-_DSC1367.jpg', '20260123-_DSC1389.jpg', '20260123-_DSC1414.jpg', '20260123-_DSC1424.jpg']
+    }]
+  },
+  {
+    artist: 'Nishi Naoki',
+    cover: '_DSC0015_1cover .jpg',
+    coverPosition: '50% 36%',
+    events: [{
+      date: 'September 2026',
+      folder: 'nishi naoki',
+      photos: ['_DSC0015_1cover .jpg', '_DSC0103_1.jpg', '_DSC0177_1.jpg', '_DSC0274_1.jpg', '_DSC0313_1.jpg', '_DSF4628.jpg', '_DSF4648.jpg', '_DSF4701.jpg', '_DSC0901.jpg', '_DSC0946.jpg', '_DSF1960.jpg', '_DSF2016.jpg']
+    }]
+  },
+  {
+    artist: 'Doona',
+    cover: 'DSCF5033 cover.jpg',
+    coverPosition: '50% 50%',
+    events: [
+      {
+        date: 'May 2024',
+        folder: 'Doona',
+        photos: '_DSF6474.jpg'.split(' ')
+      },
+      {
+        date: 'September 2024',
+        folder: 'Doona',
+        photos: ['DSCF4735.jpg', 'DSCF4765.jpg', 'DSCF4785-2.jpeg', 'DSCF4875.jpeg', 'DSCF5033 cover.jpg']
+      },
+      {
+        date: 'March 2025',
+        folder: 'Doona',
+        photos: 'DSCF1427.jpeg _DSF1535.jpeg'.split(' ')
+      }
+    ]
+  },
+  {
+    artist: 'S.A.R',
+    cover: '_DSF2825 cover.jpg',
+    coverPosition: '50% 42%',
+    events: [
+      {
+        date: 'April 2024',
+        folder: 'S.A.R',
+        photos: ['_DSF0144.JPG', '_DSF0184.JPG', '_DSF0249.JPG', '_DSF2825 cover.jpg']
+      },
+      {
+        date: 'May 2024',
+        folder: 'S.A.R',
+        photos: '_DSF5652.jpg _DSF5736.jpg _DSF5775.jpg _DSF5798.jpg _DSF5846.jpg _DSF5848.jpg _DSF5884.jpg _DSF6133.jpg _DSF6204.jpg _DSF6252.jpg _DSF6260.jpg'.split(' ')
+      }
+    ]
+  },
+  {
+    artist: 'HIMI',
+    cover: '_DSF4159cover.jpg',
+    coverPosition: '50% 36%',
+    events: [{
+      date: 'April 2024',
+      folder: 'HIMI',
+      photos: ['_DSF3956.jpg', '_DSF3999.jpg', '_DSF4057.jpg', '_DSF4111.jpg', '_DSF4159cover.jpg', '_DSF4197.jpg', '_DSF4233.jpg']
+    }]
+  },
+  {
+    artist: 'Lil Summer',
+    cover: 'DSCF3043cover.jpg',
+    coverPosition: '50% 28%',
+    events: [{
+      date: 'July 2024',
+      folder: 'Lil summer',
+      photos: ['DSCF2887.jpg', 'DSCF3009.jpg', 'DSCF3043cover.jpg']
+    }]
+  },
+  {
+    artist: 'Reiya the PAVE',
+    cover: '_DSF7965 cover.jpg',
+    coverPosition: '50% 32%',
+    events: [{
+      date: 'March 2025',
+      folder: 'Reiya the PAVE',
+      photos: ['DSCF0002.jpg', 'DSCF0151.jpg', 'DSCF0202.jpg', 'DSCF0317.jpg', 'DSCF0350.jpg', 'DSCF0361.jpg', 'DSCF9782.jpg', '_DSF7782.jpg', '_DSF7820.jpg', '_DSF7889.jpg', '_DSF7965 cover.jpg', '_DSF8041.jpg', '_DSF8096.jpg', '_DSF8198.jpg']
+    }]
+  }
+];
+
+function renderLivePhotoArtists() {
+  document.querySelectorAll('[data-live-year-browser]').forEach((browser, browserIndex) => {
+    const grid = document.createElement('div');
+    grid.className = 'series-grid';
+    const details = document.createElement('div');
+
+    livePhotoArtists.forEach((liveArtist, artistIndex) => {
+      const years = [...new Set(liveArtist.events.map(({date}) => date.match(/\d{4}/)?.[0]).filter(Boolean))];
+      const card = document.createElement('div');
+      card.className = 'series-card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `${liveArtist.artist}, ${years.join(', ')}`);
+
+      const thumb = document.createElement('div');
+      thumb.className = 'series-thumb';
+      const cover = document.createElement('img');
+      cover.src = `LIVE photos/${liveArtist.events[0].folder}/${liveArtist.cover}`;
+      cover.style.setProperty('--cover-position', liveArtist.coverPosition || '50% 50%');
+      cover.alt = `${liveArtist.artist} live photography`;
+      cover.loading = 'lazy';
+      thumb.append(cover);
+      card.append(thumb);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'series-overlay';
+      const label = document.createElement('div');
+      label.className = 'series-overlay-label';
+      label.textContent = 'Live Photography';
+      const title = document.createElement('div');
+      title.className = 'series-overlay-title';
+      title.textContent = liveArtist.artist;
+      const date = document.createElement('div');
+      date.className = 'series-overlay-count';
+      date.textContent = years.join(' / ');
+      const arrow = document.createElement('div');
+      arrow.className = 'series-overlay-arrow';
+      arrow.textContent = '→';
+      overlay.append(label, title, date, arrow);
+      card.append(overlay);
+
+      const detail = document.createElement('div');
+      detail.className = 'series-detail';
+      const header = document.createElement('div');
+      header.className = 'series-detail-header';
+      const back = document.createElement('button');
+      back.className = 'back-btn';
+      back.type = 'button';
+      back.textContent = 'Back';
+      const breadcrumb = document.createElement('div');
+      breadcrumb.className = 'detail-breadcrumb';
+      const breadcrumbTitle = document.createElement('span');
+      breadcrumbTitle.textContent = liveArtist.artist;
+      breadcrumb.append(document.createTextNode('Live / '), breadcrumbTitle);
+      header.append(back, breadcrumb);
+      const detailTitle = document.createElement('div');
+      detailTitle.className = 'detail-title';
+      detailTitle.textContent = liveArtist.artist;
+      const meta = document.createElement('div');
+      meta.className = 'detail-meta';
+      meta.textContent = `Live Photography — ${years.join(' / ')}`;
+      const masonry = document.createElement('div');
+      masonry.className = 'photo-masonry';
+      masonry.id = `live-gallery-${browserIndex}-${artistIndex}`;
+
+      let photoIndex = 0;
+      liveArtist.events.forEach(liveEvent => {
+        liveEvent.photos.forEach(photo => {
+          const item = document.createElement('div');
+          item.className = 'photo-masonry-item live-photo-item';
+          const image = document.createElement('img');
+          image.src = `LIVE photos/${liveEvent.folder}/${photo}`;
+          image.alt = `${liveArtist.artist}, ${liveEvent.date}, photo ${photoIndex + 1}`;
+          image.loading = 'lazy';
+          const hint = document.createElement('div');
+          hint.className = 'lightbox-hint';
+          const hintText = document.createElement('span');
+          hintText.textContent = 'View';
+          hint.append(hintText);
+          const photoDate = document.createElement('div');
+          photoDate.className = 'live-photo-date';
+          photoDate.textContent = liveEvent.date;
+          item.append(image, hint, photoDate);
+          item.addEventListener('click', () => openLightbox(masonry.id, photoIndex, masonry));
+          masonry.append(item);
+          photoIndex += 1;
+        });
+      });
+
+      detail.append(header, detailTitle, meta, masonry);
+      back.addEventListener('click', () => {
+        detail.classList.remove('active');
+        grid.style.display = '';
+      });
+      const openDetail = () => {
+        grid.style.display = 'none';
+        details.querySelectorAll('.series-detail').forEach(existing => existing.classList.remove('active'));
+        detail.classList.add('active');
+      };
+      card.addEventListener('click', openDetail);
+      card.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openDetail();
+        }
+      });
+
+      grid.append(card);
+      details.append(detail);
+    });
+
+    browser.replaceChildren(grid, details);
+  });
+}
+
+renderLivePhotoArtists();
+
+// LANG
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  document.querySelectorAll('[data-'+lang+']').forEach(el => { el.innerHTML = el.getAttribute('data-'+lang); });
+  document.documentElement.lang = lang==='jp'?'ja':lang==='fr'?'fr':'en';
+  showContactFormStatus(contactFormStatus.dataset.state);
+}
+</script>
+</body>
+</html>
